@@ -1,5 +1,5 @@
 const url = 'https://api.fpt.ai/hmi/tts/v5';
-const apiKey = '3hlR0ZtgRGnHh2lK2RBM582L4VYOOfiy'; // API key của bạn
+const apiKey = '3hlR0ZtgRGnHh2lK2RBM582L4VYOOfiy'; // Khóa API của bạn
 
 document.getElementById('speakButton').addEventListener('click', function() {
     const text = document.getElementById('nameInput').value.trim();
@@ -13,10 +13,10 @@ document.getElementById('speakButton').addEventListener('click', function() {
         };
 
         const data = {
-            text: text, // Chỉ văn bản nhập vào được truyền vào đây
-            voice: voice,
-            speed: speed,
-            format: 'mp3'
+            text: text,      // Chỉ gửi văn bản
+            voice: voice,    // Giữ lại giọng nói để tùy chỉnh
+            speed: speed,    // Giữ lại tốc độ để tùy chỉnh
+            format: 'mp3'    // Giữ lại định dạng để tùy chỉnh, nhưng sẽ không đọc
         };
 
         fetch(url, {
@@ -25,24 +25,30 @@ document.getElementById('speakButton').addEventListener('click', function() {
             body: JSON.stringify(data)
         })
         .then(response => {
-            if (!response.ok) throw new Error('Network response was not ok');
+            if (!response.ok) throw new Error('Phản hồi mạng không ổn định');
             return response.json();
         })
         .then(result => {
             if (result.error === 0) {
-                const audioUrl = result.async; // URL của tệp âm thanh
-                
-                // Tạo và phát âm thanh từ URL
-                const audio = new Audio(audioUrl);
-                audio.onerror = function() {
-                    console.error('Lỗi khi tải âm thanh:', audioUrl);
-                    alert('Không thể phát âm thanh, vui lòng kiểm tra lại!');
-                };
-                audio.play().catch(error => {
-                    console.error('Lỗi khi phát âm thanh:', error);
-                });
+                const audioUrl = result.async; // URL tệp âm thanh
+                console.log("URL âm thanh:", audioUrl); // In URL âm thanh ra để kiểm tra
+
+                if (audioUrl) {  // Kiểm tra nếu URL tồn tại
+                    const audio = new Audio(audioUrl);
+                    audio.onerror = function() {
+                        console.error('Lỗi khi tải âm thanh:', audioUrl);
+                        alert('Không thể phát âm thanh, vui lòng kiểm tra lại URL âm thanh!');
+                    };
+                    audio.play().catch(error => {
+                        console.error('Lỗi khi phát âm thanh:', error);
+                        alert('Lỗi khi phát âm thanh, vui lòng kiểm tra lại!');
+                    });
+                } else {
+                    console.error('URL âm thanh không hợp lệ:', audioUrl);
+                    alert('URL âm thanh không hợp lệ, vui lòng thử lại!');
+                }
             } else {
-                alert('Có lỗi xảy ra: ' + result.message);
+                alert('Có lỗi xảy ra từ API: ' + result.message);
             }
         })
         .catch(error => {

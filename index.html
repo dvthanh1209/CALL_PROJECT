@@ -8,7 +8,7 @@
         body {
             font-family: Arial, sans-serif;
             padding: 20px;
-            background-color: #282c34; /* Màu nền đơn giản */
+            background-color: #282c34;
             color: white;
         }
         input, select {
@@ -17,6 +17,7 @@
             border: none;
             border-radius: 5px;
             font-size: 16px;
+            width: 100%;
         }
         button {
             padding: 10px;
@@ -46,7 +47,7 @@
 <body>
     <div class="container">
         <h1>Chuyển Văn Bản Thành Giọng Nói</h1>
-        <input type="text" id="nameInput" placeholder="Nhập tên của bạn" />
+        <input type="text" id="nameInput" placeholder="Nhập văn bản của bạn" />
         
         <label for="voiceSelect">Chọn giọng nói:</label>
         <select id="voiceSelect">
@@ -66,7 +67,7 @@
             <option value="-1">Chậm</option>
         </select>
 
-        <button id="speakButton">Đọc Tên</button>
+        <button id="speakButton">Đọc Văn Bản</button>
     </div>
 
     <script src="Source.js"></script>
