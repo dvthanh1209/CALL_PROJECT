@@ -13,10 +13,10 @@ document.getElementById('speakButton').addEventListener('click', function() {
         };
 
         const data = {
-            text: text,      // Chỉ gửi văn bản
-            voice: voice,    // Giữ lại giọng nói để tùy chỉnh
-            speed: speed,    // Giữ lại tốc độ để tùy chỉnh
-            format: 'mp3'    // Giữ lại định dạng để tùy chỉnh, nhưng sẽ không đọc
+            text: text,
+            voice: voice,
+            speed: speed,
+            format: 'mp3' // Bạn có thể thay đổi thành 'wav' nếu cần
         };
 
         fetch(url, {
@@ -25,32 +25,24 @@ document.getElementById('speakButton').addEventListener('click', function() {
             body: JSON.stringify(data)
         })
         .then(response => {
-            if (!response.ok) throw new Error('Phản hồi mạng không ổn định');
+            if (!response.ok) throw new Error('Network response was not ok');
             return response.json();
         })
         .then(result => {
-            console.log("Kết quả từ API:", result); // Log kết quả từ API
-
             if (result.error === 0) {
-                const audioUrl = result.async; // URL tệp âm thanh
+                const audioUrl = result.async; // URL của tệp âm thanh
                 console.log("URL âm thanh:", audioUrl); // In URL âm thanh ra để kiểm tra
 
-                if (audioUrl) {  // Kiểm tra nếu URL tồn tại
+                if (audioUrl) {
                     const audio = new Audio(audioUrl);
-                    audio.onerror = function() {
-                        console.error('Lỗi khi tải âm thanh:', audioUrl);
-                        alert('Không thể phát âm thanh, vui lòng kiểm tra lại URL âm thanh!');
-                    };
                     audio.play().catch(error => {
                         console.error('Lỗi khi phát âm thanh:', error);
-                        alert('Lỗi khi phát âm thanh, vui lòng kiểm tra lại!');
                     });
                 } else {
                     console.error('URL âm thanh không hợp lệ:', audioUrl);
                     alert('URL âm thanh không hợp lệ, vui lòng thử lại!');
                 }
             } else {
-                console.error('Lỗi từ API:', result);
                 alert('Có lỗi xảy ra từ API: ' + result.message);
             }
         })
