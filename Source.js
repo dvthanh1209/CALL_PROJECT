@@ -6,8 +6,11 @@ document.getElementById('speakButton').addEventListener('click', function() {
     const voice = document.getElementById('voiceSelect').value;
     const speed = document.getElementById('speedSelect').value;
 
-    // In dữ liệu gửi đi ra console để kiểm tra
-    console.log("Dữ liệu gửi đi:", { text, voice, speed });
+    console.log("Dữ liệu gửi đi:", {
+        text: text,
+        voice: voice,
+        speed: speed
+    });
 
     if (text.length >= 3 && text.length <= 5000) {
         const headers = {
@@ -36,9 +39,14 @@ document.getElementById('speakButton').addEventListener('click', function() {
 
             if (result.error === 0) {
                 const audioUrl = result.async; // URL của tệp âm thanh
+                console.log("URL âm thanh:", audioUrl); // In URL âm thanh ra console
                 
-                // Phát âm thanh
+                // Kiểm tra URL trước khi phát
                 const audio = new Audio(audioUrl);
+                audio.onerror = function() {
+                    console.error('Lỗi khi tải âm thanh:', audioUrl);
+                    alert('Không thể phát âm thanh, vui lòng kiểm tra lại!');
+                };
                 audio.play().catch(error => {
                     console.error('Lỗi khi phát âm thanh:', error);
                 });
