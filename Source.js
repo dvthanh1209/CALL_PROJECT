@@ -1,6 +1,5 @@
 const url = 'https://api.fpt.ai/hmi/tts/v5';
 const apiKey = '3hlR0ZtgRGnHh2lK2RBM582L4VYOOfiy'; // API key của bạn
-let audioUrl = ''; // Biến để lưu trữ URL âm thanh
 
 document.getElementById('speakButton').addEventListener('click', function() {
     const text = document.getElementById('nameInput').value.trim();
@@ -40,9 +39,21 @@ document.getElementById('speakButton').addEventListener('click', function() {
             console.log(result); // In phản hồi ra console
 
             if (result.error === 0) {
-                audioUrl = result.async; // Lưu URL âm thanh vào biến
+                const audioUrl = result.async; // URL của tệp âm thanh
                 console.log("URL âm thanh:", audioUrl); // In URL âm thanh ra console
                 
+                // Hiện thông báo đang tải
+                document.getElementById('downloadMessage').style.display = 'block';
+
+                // Tạo link tải xuống
+                const link = document.createElement('a');
+                link.href = audioUrl;
+                link.download = 'audio.mp3'; // Tên file khi tải về
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+
+                // Phát âm thanh
                 const audio = new Audio(audioUrl);
                 audio.onerror = function() {
                     console.error('Lỗi khi tải âm thanh:', audioUrl);
@@ -61,19 +72,5 @@ document.getElementById('speakButton').addEventListener('click', function() {
         });
     } else {
         alert('Vui lòng nhập ít nhất 3 ký tự và tối đa 5000 ký tự!');
-    }
-});
-
-// Tải âm thanh
-document.getElementById('downloadButton').addEventListener('click', function() {
-    if (audioUrl) {
-        const link = document.createElement('a');
-        link.href = audioUrl;
-        link.download = 'audio.mp3'; // Tên file tải xuống
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    } else {
-        alert('Vui lòng phát âm thanh trước khi tải xuống!');
     }
 });

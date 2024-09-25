@@ -41,6 +41,10 @@
             padding: 20px;
             border-radius: 10px;
         }
+        #downloadMessage {
+            margin-top: 20px;
+            color: yellow;
+        }
     </style>
 </head>
 <body>
@@ -67,7 +71,7 @@
         </select>
 
         <button id="speakButton">Đọc Tên</button>
-        <button id="downloadButton" style="margin-top: 10px;">Tải Âm Thanh</button>
+        <div id="downloadMessage" style="display:none;">Đang tải âm thanh, vui lòng chờ...</div>
     </div>
 
     <script src="Source.js"></script>
