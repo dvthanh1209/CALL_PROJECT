@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chuyển Văn Bản Thành Giọng Nói</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #282c34; /* Màu nền đơn giản */
+            color: white;
+        }
+        input, select {
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        h1 {
+            text-align: center;
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Chuyển Văn Bản Thành Giọng Nói</h1>
+        <input type="text" id="nameInput" placeholder="Nhập tên của bạn" />
+        
+        <label for="voiceSelect">Chọn giọng nói:</label>
+        <select id="voiceSelect">
+            <option value="banmai">Banmai (nữ miền Bắc)</option>
+            <option value="lannhi">Lannhi (nữ miền Nam)</option>
+            <option value="leminh">Lemin (nam miền Bắc)</option>
+            <option value="myan">Myan (nữ miền Trung)</option>
+            <option value="thuminh">Thuminh (nữ miền Bắc)</option>
+            <option value="giahuy">Giahuy (nam miền Trung)</option>
+            <option value="linhsan">Linhsan (nữ miền Nam)</option>
+        </select>
+
+        <label for="speedSelect">Chọn tốc độ:</label>
+        <select id="speedSelect">
+            <option value="0">Bình thường</option>
+            <option value="1">Nhanh</option>
+            <option value="-1">Chậm</option>
+        </select>
+
+        <button id="speakButton">Đọc Tên</button>
+    </div>
+
+    <script src="Source.js"></script>
+</body>
+</html>
