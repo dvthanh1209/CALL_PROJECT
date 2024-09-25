@@ -11,13 +11,12 @@
             background-color: #282c34; /* Màu nền đơn giản */
             color: white;
         }
-        input {
+        input, select {
             padding: 10px;
             margin: 10px 0;
             border: none;
             border-radius: 5px;
             font-size: 16px;
-            width: calc(100% - 22px);
         }
         button {
             padding: 10px;
@@ -48,6 +47,25 @@
     <div class="container">
         <h1>Chuyển Văn Bản Thành Giọng Nói</h1>
         <input type="text" id="nameInput" placeholder="Nhập văn bản của bạn" />
+        
+        <label for="voiceSelect">Chọn giọng nói:</label>
+        <select id="voiceSelect">
+            <option value="banmai">Banmai (nữ miền Bắc)</option>
+            <option value="lannhi">Lannhi (nữ miền Nam)</option>
+            <option value="leminh">Lemin (nam miền Bắc)</option>
+            <option value="myan">Myan (nữ miền Trung)</option>
+            <option value="thuminh">Thuminh (nữ miền Bắc)</option>
+            <option value="giahuy">Giahuy (nam miền Trung)</option>
+            <option value="linhsan">Linhsan (nữ miền Nam)</option>
+        </select>
+
+        <label for="speedSelect">Chọn tốc độ:</label>
+        <select id="speedSelect">
+            <option value="0">Bình thường</option>
+            <option value="1">Nhanh</option>
+            <option value="-1">Chậm</option>
+        </select>
+
         <button id="speakButton">Đọc Văn Bản</button>
     </div>
 

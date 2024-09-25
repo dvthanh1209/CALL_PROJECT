@@ -3,9 +3,13 @@ const apiKey = '3hlR0ZtgRGnHh2lK2RBM582L4VYOOfiy'; // API key của bạn
 
 document.getElementById('speakButton').addEventListener('click', function() {
     const text = document.getElementById('nameInput').value.trim();
+    const voice = document.getElementById('voiceSelect').value;
+    const speed = document.getElementById('speedSelect').value;
 
     console.log("Dữ liệu gửi đi:", {
         text: text,
+        voice: voice,
+        speed: speed
     });
 
     if (text.length >= 3 && text.length <= 5000) {
@@ -16,8 +20,8 @@ document.getElementById('speakButton').addEventListener('click', function() {
 
         const data = {
             text: text,
-            voice: 'banmai', // Giọng nói mặc định
-            speed: 0, // Tốc độ mặc định
+            voice: voice,
+            speed: speed,
             format: 'mp3'
         };
 
