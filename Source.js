@@ -13,7 +13,7 @@ document.getElementById('speakButton').addEventListener('click', function() {
         };
 
         const data = {
-            text: text,
+            text: text, // Chỉ văn bản nhập vào được truyền vào đây
             voice: voice,
             speed: speed,
             format: 'mp3'
