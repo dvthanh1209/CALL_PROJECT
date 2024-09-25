@@ -6,12 +6,6 @@ document.getElementById('speakButton').addEventListener('click', function() {
     const voice = document.getElementById('voiceSelect').value;
     const speed = document.getElementById('speedSelect').value;
 
-    console.log("Dữ liệu gửi đi:", {
-        text: text,
-        voice: voice,
-        speed: speed
-    });
-
     if (text.length >= 3 && text.length <= 5000) {
         const headers = {
             'api_key': apiKey,
@@ -19,10 +13,10 @@ document.getElementById('speakButton').addEventListener('click', function() {
         };
 
         const data = {
-            text: text,
-            voice: voice,
-            speed: speed,
-            format: 'mp3'
+            text: text,      // Chỉ gửi text
+            voice: voice,    // Giữ lại giọng nói để tùy chỉnh
+            speed: speed,    // Giữ lại tốc độ để tùy chỉnh
+            format: 'mp3'    // Giữ lại format để tùy chỉnh, nhưng sẽ không đọc
         };
 
         fetch(url, {
@@ -35,18 +29,9 @@ document.getElementById('speakButton').addEventListener('click', function() {
             return response.json();
         })
         .then(result => {
-            console.log(result); // In phản hồi ra console
-
             if (result.error === 0) {
                 const audioUrl = result.async; // URL của tệp âm thanh
-                console.log("URL âm thanh:", audioUrl); // In URL âm thanh ra console
-                
-                // Kiểm tra URL trước khi phát
                 const audio = new Audio(audioUrl);
-                audio.onerror = function() {
-                    console.error('Lỗi khi tải âm thanh:', audioUrl);
-                    alert('Không thể phát âm thanh, vui lòng kiểm tra lại!');
-                };
                 audio.play().catch(error => {
                     console.error('Lỗi khi phát âm thanh:', error);
                 });
