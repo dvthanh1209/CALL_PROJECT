@@ -1,5 +1,5 @@
 const url = 'https://api.fpt.ai/hmi/tts/v5';
-const apiKey = '3hlR0ZtgRGnHh2lK2RBM582L4VYOOfiy'; // Khóa API của bạn
+const apiKey = '3hlR0ZtgRGnHh2lK2RBM582L4VYOOfiy'; // API key của bạn
 
 document.getElementById('speakButton').addEventListener('click', function() {
     const text = document.getElementById('nameInput').value.trim();
@@ -16,7 +16,7 @@ document.getElementById('speakButton').addEventListener('click', function() {
             text: text,
             voice: voice,
             speed: speed,
-            format: 'mp3' // Bạn có thể thay đổi thành 'wav' nếu cần
+            format: 'mp3'
         };
 
         fetch(url, {
@@ -25,25 +25,18 @@ document.getElementById('speakButton').addEventListener('click', function() {
             body: JSON.stringify(data)
         })
         .then(response => {
-            if (!response.ok) throw new Error('Network response was not ok');
+            if (!response.ok) throw new Error('Phản hồi mạng không ổn định');
             return response.json();
         })
         .then(result => {
             if (result.error === 0) {
-                const audioUrl = result.async; // URL của tệp âm thanh
-                console.log("URL âm thanh:", audioUrl); // In URL âm thanh ra để kiểm tra
-
-                if (audioUrl) {
-                    const audio = new Audio(audioUrl);
-                    audio.play().catch(error => {
-                        console.error('Lỗi khi phát âm thanh:', error);
-                    });
-                } else {
-                    console.error('URL âm thanh không hợp lệ:', audioUrl);
-                    alert('URL âm thanh không hợp lệ, vui lòng thử lại!');
-                }
+                const audioUrl = result.async;
+                const audio = new Audio(audioUrl);
+                audio.play().catch(error => {
+                    console.error('Lỗi khi phát âm thanh:', error);
+                });
             } else {
-                alert('Có lỗi xảy ra từ API: ' + result.message);
+                alert('Có lỗi xảy ra: ' + result.message);
             }
         })
         .catch(error => {
