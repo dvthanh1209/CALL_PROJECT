@@ -4,10 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project 1 Call</title>
-    <script src="Source.js"></script> <!-- Đường dẫn tới file JS của bạn -->
+    <script src="Source.js"></script> <!-- Tham chiếu đến file JavaScript -->
 </head>
 <body>
     <h1>Chào mừng đến với Project 1 Call!</h1>
-    <!-- Các phần khác của dự án -->
+    <p>Nhập tên của bạn và nhấn nút để nghe.</p>
+    <input type="text" id="textInput" placeholder="Nhập tên của bạn">
+    <button onclick="convertToSpeech()">Đọc tên</button> <!-- Gọi hàm chuyển đổi giọng nói -->
+    
+    <script>
+        function convertToSpeech() {
+            const text = document.getElementById('textInput').value;
+            // Gọi hàm từ Source.js để thực hiện chuyển đổi
+            // Bạn cần đảm bảo hàm này có trong Source.js
+        }
+    </script>
 </body>
 </html>
