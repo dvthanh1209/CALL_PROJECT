@@ -29,6 +29,8 @@ document.getElementById('speakButton').addEventListener('click', function() {
             return response.json();
         })
         .then(result => {
+            console.log("Kết quả từ API:", result); // Log kết quả từ API
+
             if (result.error === 0) {
                 const audioUrl = result.async; // URL tệp âm thanh
                 console.log("URL âm thanh:", audioUrl); // In URL âm thanh ra để kiểm tra
@@ -48,6 +50,7 @@ document.getElementById('speakButton').addEventListener('click', function() {
                     alert('URL âm thanh không hợp lệ, vui lòng thử lại!');
                 }
             } else {
+                console.error('Lỗi từ API:', result);
                 alert('Có lỗi xảy ra từ API: ' + result.message);
             }
         })
