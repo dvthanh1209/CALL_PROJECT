@@ -1,12 +1,19 @@
 const url = 'https://api.fpt.ai/hmi/tts/v5';
 const apiKey = '3hlR0ZtgRGnHh2lK2RBM582L4VYOOfiy'; // API key của bạn
+let audioUrl = ''; // Biến để lưu trữ URL âm thanh
 
 document.getElementById('speakButton').addEventListener('click', function() {
     const text = document.getElementById('nameInput').value.trim();
     const voice = document.getElementById('voiceSelect').value;
     const speed = document.getElementById('speedSelect').value;
 
-    // Chỉ gửi text
+    console.log("Dữ liệu gửi đi:", {
+        text: text,
+        voice: voice,
+        speed: speed,
+        format: 'mp3'
+    });
+
     if (text.length >= 3 && text.length <= 5000) {
         const headers = {
             'api_key': apiKey,
@@ -14,7 +21,7 @@ document.getElementById('speakButton').addEventListener('click', function() {
         };
 
         const data = {
-            text: text,   // Chỉ gửi text vào đây
+            text: text,
             voice: voice,
             speed: speed,
             format: 'mp3'
@@ -30,9 +37,17 @@ document.getElementById('speakButton').addEventListener('click', function() {
             return response.json();
         })
         .then(result => {
+            console.log(result); // In phản hồi ra console
+
             if (result.error === 0) {
-                const audioUrl = result.async; // URL của tệp âm thanh
+                audioUrl = result.async; // Lưu URL âm thanh vào biến
+                console.log("URL âm thanh:", audioUrl); // In URL âm thanh ra console
+                
                 const audio = new Audio(audioUrl);
+                audio.onerror = function() {
+                    console.error('Lỗi khi tải âm thanh:', audioUrl);
+                    alert('Không thể phát âm thanh, vui lòng kiểm tra lại!');
+                };
                 audio.play().catch(error => {
                     console.error('Lỗi khi phát âm thanh:', error);
                 });
@@ -46,5 +61,19 @@ document.getElementById('speakButton').addEventListener('click', function() {
         });
     } else {
         alert('Vui lòng nhập ít nhất 3 ký tự và tối đa 5000 ký tự!');
+    }
+});
+
+// Tải âm thanh
+document.getElementById('downloadButton').addEventListener('click', function() {
+    if (audioUrl) {
+        const link = document.createElement('a');
+        link.href = audioUrl;
+        link.download = 'audio.mp3'; // Tên file tải xuống
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    } else {
+        alert('Vui lòng phát âm thanh trước khi tải xuống!');
     }
 });
