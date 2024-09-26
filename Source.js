@@ -72,7 +72,7 @@ function checkAudioStatus(requestId) {
 
 // Gọi hàm setupCallback nếu cần
 function setupCallback() {
-    const callbackUrl = 'https://dvthanh1209.github.io/Project1-call-2/'; // URL để nhận thông báo
+    const callbackUrl = 'https://dvthanh1209.github.io/CALL_PROJECT/'; // URL để nhận thông báo
     fetch(callbackUrl, {
         method: 'POST',
         headers: {
