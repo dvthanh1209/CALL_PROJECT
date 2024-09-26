@@ -6,6 +6,8 @@ const callbackUrl = "";
 
 document.getElementById('speakButton').addEventListener('click', function () {
     const text = document.getElementById('textInput').value.trim();
+    const selectedVoice = document.getElementById('voiceSelect').value;
+    const selectedSpeed = document.getElementById('speedSelect').value;
 
     if (text.length < 3 || text.length > 5000) {
         alert("Vui lòng nhập văn bản từ 3 đến 5000 ký tự.");
@@ -18,7 +20,12 @@ document.getElementById('speakButton').addEventListener('click', function () {
             "api_key": apiKey,
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({ text: text, callback_url: callbackUrl })
+        body: JSON.stringify({ 
+            text: text, 
+            voice: selectedVoice,
+            speed: selectedSpeed,
+            callback_url: callbackUrl 
+        })
     })
     .then(response => {
         if (!response.ok) {
