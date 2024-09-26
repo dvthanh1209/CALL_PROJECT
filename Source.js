@@ -44,7 +44,7 @@ function playText() {
     .catch(error => {
         console.error("Lỗi:", error);
     });
-});
+}
 
 function checkAudioStatus(requestId) {
     const statusCheckUrl = `${apiUrl}/status/${requestId}`;
