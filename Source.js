@@ -31,10 +31,12 @@ function convertTextToSpeech(text, voice, speed) {
             checkAudioStatus(requestId);  // Kiểm tra trạng thái audio
         } else {
             console.error('Lỗi khi yêu cầu TTS:', responseData.message);
+            alert('Có lỗi khi yêu cầu TTS: ' + responseData.message);
         }
     })
     .catch(error => {
         console.error('Lỗi khi gửi yêu cầu:', error);
+        alert('Có lỗi khi gửi yêu cầu: ' + error.message);
     });
 }
 
@@ -56,11 +58,12 @@ function checkAudioStatus(requestId) {
             playAudio(responseData.async);  // Phát âm thanh
         } else {
             console.error('Lỗi khi kiểm tra trạng thái hoặc không có async link:', responseData.message);
-            alert('Có lỗi xảy ra khi kiểm tra trạng thái: ' + responseData.message);
+            alert('Có lỗi khi kiểm tra trạng thái: ' + responseData.message);
         }
     })
     .catch(error => {
         console.error('Lỗi khi kiểm tra trạng thái âm thanh:', error);
+        alert('Có lỗi khi kiểm tra trạng thái âm thanh: ' + error.message);
     });
 }
 
@@ -73,6 +76,7 @@ function playAudio(audioUrl) {
     })
     .catch(error => {
         console.error('Lỗi khi phát âm thanh:', error);
+        alert('Có lỗi khi phát âm thanh: ' + error.message);
     });
 }
 
