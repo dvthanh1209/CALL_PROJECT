@@ -29,9 +29,9 @@ document.getElementById('speakButton').addEventListener('click', function() {
         .then(response => response.json())
         .then(responseData => {
             if (responseData.error === 0) {
-                console.log('Yêu cầu thành công, chờ âm thanh được chuẩn bị...');
-                const requestId = responseData.request_id; // Lấy request_id từ phản hồi
-                checkAudioStatus(requestId); // Gọi hàm kiểm tra trạng thái âm thanh
+                console.log('Yêu cầu thành công, đang lấy liên kết âm thanh...');
+                const audioUrl = responseData.async; // Lấy liên kết âm thanh từ phản hồi
+                playAudio(audioUrl); // Gọi hàm để phát âm thanh từ liên kết
             } else {
                 alert('Có lỗi xảy ra: ' + responseData.message);
             }
@@ -45,53 +45,10 @@ document.getElementById('speakButton').addEventListener('click', function() {
     }
 });
 
-// Hàm kiểm tra trạng thái âm thanh
-function checkAudioStatus(requestId) {
-    const statusCheckUrl = `https://api.fpt.ai/hmi/tts/v5/status/${requestId}`;
-
-    fetch(statusCheckUrl, {
-        method: 'GET',
-        headers: {
-            'api_key': apiKey
-        }
-    })
-    .then(response => response.json())
-    .then(responseData => {
-        if (responseData.error === 0) {
-            const audioUrl = responseData.async;
-            const audio = new Audio(audioUrl);
-            audio.play().catch(error => {
-                console.error('Lỗi khi phát âm thanh:', error);
-            });
-        } else {
-            console.error('Lỗi kiểm tra trạng thái:', responseData.message);
-            alert('Có lỗi xảy ra khi kiểm tra trạng thái âm thanh: ' + responseData.message);
-        }
-    })
-    .catch(error => {
-        console.error('Lỗi khi kiểm tra trạng thái âm thanh:', error);
-        alert('Lỗi khi kiểm tra trạng thái âm thanh. Vui lòng thử lại!');
+// Hàm phát âm thanh từ liên kết nhận được
+function playAudio(audioUrl) {
+    const audio = new Audio(audioUrl);
+    audio.play().catch(error => {
+        console.error('Lỗi khi phát âm thanh:', error);
     });
 }
-
-// Gọi hàm setupCallback nếu cần
-function setupCallback() {
-    const callbackUrl = 'https://dvthanh1209.github.io/CALL_PROJECT/'; // URL để nhận thông báo
-    fetch(callbackUrl, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ message: 'Request has been processed.' })
-    })
-    .then(response => response.json())
-    .then(responseData => {
-        console.log('Callback response:', responseData);
-    })
-    .catch(error => {
-        console.error('Lỗi khi gửi callback:', error);
-    });
-}
-
-// Gọi hàm setupCallback khi cần
-setupCallback();
