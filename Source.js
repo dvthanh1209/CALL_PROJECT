@@ -17,7 +17,7 @@ document.getElementById('speakButton').addEventListener('click', function() {
             voice: voice,
             speed: speed,
             format: 'mp3',
-            callback_url: 'https://dvthanh1209.github.io/Project1-call-2/' // URL để nhận thông báo
+            callback_url: 'https://dvthanh1209.github.io/CALL_PROJECT/' // URL để nhận thông báo
         };
 
         // Gửi yêu cầu đến API
