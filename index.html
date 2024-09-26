@@ -84,7 +84,7 @@
             max-width: 600px;
         }
     </style>
-    <script src="path/to/source.js" defer></script>
+   
 </head>
 <body>
     <div class="logo-container">
@@ -110,9 +110,10 @@
         <option value="-1">Tốc độ chậm</option>
     </select>
 
-    <button id="speakButton">Phát âm thanh</button>
+    <button id="speakButton" onclick="playText()">Phát âm thanh</button>
     <div class="audio-player">
         <audio id="audioPlayer" controls></audio>
     </div>
+    <script src="Source.js"></script>
 </body>
 </html>
