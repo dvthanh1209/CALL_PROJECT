@@ -4,7 +4,7 @@ const apiUrl = "https://api.fpt.ai/hmi/tts/v5";
 // URL để nhận thông báo callback (có thể để trống nếu không cần)
 const callbackUrl = ""; 
 
-document.getElementById('speakButton').addEventListener('click', function () {
+function playText() {
     const text = document.getElementById('textInput').value.trim();
     const selectedVoice = document.getElementById('voiceSelect').value;
     const selectedSpeed = document.getElementById('speedSelect').value;
