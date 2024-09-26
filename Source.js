@@ -1,34 +1,25 @@
-const apiKey = '3hlR0ZtgRGnHh2lK2RBM582L4VYOOfiy';
-const callbackUrl = 'https://dvthanh1209.github.io/CALL_PROJECT/';
-
-// Hàm để chuyển đổi văn bản thành giọng nói
+// Hàm để chuyển đổi văn bản thành giọng nói qua backend trung gian
 function convertTextToSpeech(text, voice, speed) {
-    const ttsUrl = 'https://api.fpt.ai/hmi/tts/v5';
-    const headers = {
-        'api_key': apiKey,
-        'Content-Type': 'application/json',
-        'Cache-Control': 'no-cache'
-    };
+    const ttsUrl = 'https://tts-backend.vercel.app/api/tts'; // URL của backend trung gian
 
     const body = JSON.stringify({
         text: text,
         voice: voice,
-        speed: speed,
-        format: 'mp3',
-        callback_url: callbackUrl
+        speed: speed
     });
 
     fetch(ttsUrl, {
         method: 'POST',
-        headers: headers,
+        headers: {
+            'Content-Type': 'application/json',
+        },
         body: body
     })
     .then(response => response.json())
     .then(responseData => {
-        if (responseData.success === "true") {
-            const requestId = responseData.request_id;
-            console.log('Request ID:', requestId);
-            checkAudioStatus(requestId);  // Kiểm tra trạng thái audio
+        if (responseData.error === 0) {
+            console.log('Audio is ready at:', responseData.async);
+            playAudio(responseData.async);  // Phát âm thanh
         } else {
             console.error('Lỗi khi yêu cầu TTS:', responseData.message);
             alert('Có lỗi khi yêu cầu TTS: ' + responseData.message);
@@ -40,37 +31,12 @@ function convertTextToSpeech(text, voice, speed) {
     });
 }
 
-// Hàm kiểm tra trạng thái âm thanh
-function checkAudioStatus(requestId) {
-    const statusCheckUrl = `https://api.fpt.ai/hmi/tts/v5/status/${requestId}`;
-    const headers = {
-        'api_key': apiKey
-    };
-
-    fetch(statusCheckUrl, {
-        method: 'GET',
-        headers: headers
-    })
-    .then(response => response.json())
-    .then(responseData => {
-        if (responseData.error === 0 && responseData.async) {
-            console.log('Audio is ready at:', responseData.async);
-            playAudio(responseData.async);  // Phát âm thanh
-        } else {
-            console.error('Lỗi khi kiểm tra trạng thái hoặc không có async link:', responseData.message);
-            alert('Có lỗi khi kiểm tra trạng thái: ' + responseData.message);
-        }
-    })
-    .catch(error => {
-        console.error('Lỗi khi kiểm tra trạng thái âm thanh:', error);
-        alert('Có lỗi khi kiểm tra trạng thái âm thanh: ' + error.message);
-    });
-}
-
 // Hàm phát âm thanh từ link async
 function playAudio(audioUrl) {
-    const audio = new Audio(audioUrl);
-    audio.play()
+    const audioPlayer = document.getElementById('audioPlayer');
+    audioPlayer.src = audioUrl;
+    audioPlayer.style.display = 'block';
+    audioPlayer.play()
     .then(() => {
         console.log('Đang phát âm thanh...');
     })
