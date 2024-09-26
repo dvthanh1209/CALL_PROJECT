@@ -1,86 +1,79 @@
-const apiKey = "4NEZSsPkkttUr47VLaB5rFrkeQGmowRC"; // Thay đổi với API key thực tế 
-const apiUrl = "https://api.fpt.ai/hmi/tts/v5";
+const url = 'https://api.fpt.ai/hmi/tts/v5';
+const apiKey = '3hlR0ZtgRGnHh2lK2RBM582L4VYOOfiy'; // API key của bạn
 
-// URL để nhận thông báo callback (có thể để trống nếu không cần)
-const callbackUrl = ""; 
+document.getElementById('speakButton').addEventListener('click', function() {
+    const text = document.getElementById('nameInput').value.trim();
+    const voice = document.getElementById('voiceSelect').value;
+    const speed = document.getElementById('speedSelect').value;
 
-function playText() {
-    const text = document.getElementById('textInput').value.trim();
-    const selectedVoice = document.getElementById('voiceSelect').value;
-    const selectedSpeed = document.getElementById('speedSelect').value;
+    if (text.length >= 3 && text.length <= 5000) {
+        const headers = {
+            'api_key': apiKey,
+            'Content-Type': 'application/json',
+        };
 
-    if (text.length < 3 || text.length > 5000) {
-        alert("Vui lòng nhập văn bản từ 3 đến 5000 ký tự.");
-        return;
+        const data = {
+            text: text,
+            voice: voice,
+            speed: speed,
+            format: 'mp3',
+            callback_url: 'https://dvthanh1209.github.io/Project1-call-2/' // URL để nhận thông báo
+        };
+
+        // Gửi yêu cầu đến API
+        axios.post(url, data, { headers: headers })
+            .then(response => {
+                if (response.data.error === 0) {
+                    console.log('Yêu cầu thành công, chờ âm thanh được chuẩn bị...');
+                    const requestId = response.data.request_id; // Lấy request_id từ phản hồi
+                    checkAudioStatus(requestId); // Gọi hàm kiểm tra trạng thái âm thanh
+                } else {
+                    alert('Có lỗi xảy ra: ' + response.data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Lỗi:', error);
+                alert('Có lỗi xảy ra, vui lòng thử lại!');
+            });
+    } else {
+        alert('Vui lòng nhập ít nhất 3 ký tự và tối đa 5000 ký tự!');
     }
+});
 
-    fetch(apiUrl, {
-        method: "POST",
-        headers: {
-            "api_key": apiKey,
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ 
-            text: text, 
-            voice: selectedVoice,
-            speed: selectedSpeed,
-            callback_url: callbackUrl 
-        })
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error("Lỗi trong yêu cầu API");
-        }
-        return response.json();
-    })
-    .then(data => {
-        if (data.error === 0) {
-            console.log("Yêu cầu thành công, chờ âm thanh được chuẩn bị...");
-            checkAudioStatus(data.request_id);
-        } else {
-            alert("Đã xảy ra lỗi: " + data.message);
-        }
-    })
-    .catch(error => {
-        console.error("Lỗi:", error);
-    });
-}
-
+// Hàm kiểm tra trạng thái âm thanh
 function checkAudioStatus(requestId) {
-    const statusCheckUrl = `${apiUrl}/status/${requestId}`;
+    const statusUrl = `https://api.fpt.ai/hmi/tts/v5/status/${requestId}`;
 
-    setTimeout(() => {
-        fetch(statusCheckUrl, {
-            method: "GET",
-            headers: {
-                "api_key": apiKey
-            }
-        })
+    axios.get(statusUrl)
         .then(response => {
-            if (!response.ok) {
-                throw new Error("Lỗi khi kiểm tra trạng thái âm thanh");
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (data.error === 0) {
-                playAudio(data.async);
+            if (response.data.error === 0) {
+                const audioUrl = response.data.async;
+                const audio = new Audio(audioUrl);
+                audio.play().catch(error => {
+                    console.error('Lỗi khi phát âm thanh:', error);
+                });
             } else {
-                console.log("Âm thanh chưa sẵn sàng, kiểm tra lại...");
-                checkAudioStatus(requestId);
+                console.error('Lỗi kiểm tra trạng thái:', response.data.message);
+                alert('Có lỗi xảy ra khi kiểm tra trạng thái âm thanh: ' + response.data.message);
             }
         })
         .catch(error => {
-            console.error("Lỗi kiểm tra trạng thái:", error);
+            console.error('Lỗi khi kiểm tra trạng thái âm thanh:', error);
+            alert('Lỗi khi kiểm tra trạng thái âm thanh. Vui lòng thử lại!');
         });
-    }, 5000);
 }
 
-function playAudio(url) {
-    const audioPlayer = document.getElementById('audioPlayer');
-    audioPlayer.src = url; // Sử dụng URL từ phản hồi
-    audioPlayer.style.display = "block"; // Hiển thị audio player
-    audioPlayer.play().catch(error => {
-        console.error("Lỗi phát âm thanh:", error);
-    });
+// Gọi hàm setupCallback nếu cần
+function setupCallback() {
+    const callbackUrl = 'https://dvthanh1209.github.io/Project1-call-2/'; // URL để nhận thông báo
+    axios.post(callbackUrl, { message: 'Request has been processed.' })
+        .then(response => {
+            console.log('Callback response:', response.data);
+        })
+        .catch(error => {
+            console.error('Lỗi khi gửi callback:', error);
+        });
 }
+
+// Gọi hàm setupCallback khi cần
+setupCallback();
