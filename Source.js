@@ -1,4 +1,4 @@
-const apiKey = "4NEZSsPkkttUr47VLaB5rFrkeQGmowRC";
+const apiKey = "4NEZSsPkkttUr47VLaB5rFrkeQGmowRC"; // Thay đổi với API key thực tế của bạn
 const apiUrl = "https://api.fpt.ai/hmi/tts/v5";
 
 // URL để nhận thông báo callback (có thể để trống nếu không cần)
@@ -78,7 +78,7 @@ function checkAudioStatus(requestId) {
 
 function playAudio(url) {
     const audioPlayer = document.getElementById('audioPlayer');
-    audioPlayer.src = url;
+    audioPlayer.src = url; // Sử dụng URL từ phản hồi
     audioPlayer.style.display = "block"; // Hiển thị audio player
     audioPlayer.play().catch(error => {
         console.error("Lỗi phát âm thanh:", error);
