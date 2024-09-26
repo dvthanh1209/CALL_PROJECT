@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-image: url('https://pinetree.vn/wp-content/uploads/2022/08/FPT-1.jpg');
+            background-image: url('https://pinetree.vn/wp-content/uploads/2022/08/FPT-1.jpg'); /* Hình nền */
             background-size: cover;
             background-position: center;
             margin: 0;
@@ -15,7 +15,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            color: white;
+            color: white; /* Màu chữ */
         }
 
         h1 {
@@ -69,7 +69,7 @@
 
         audio {
             margin-top: 20px;
-            display: none;
+            display: none; /* Ẩn ban đầu */
         }
 
         .audio-player {
@@ -87,8 +87,8 @@
 </head>
 <body>
     <div class="logo-container">
-        <img src="https://inkythuatso.com/uploads/thumbnails/800/2021/11/logo-fpt-inkythuatso-1-01-01-14-33-35.jpg" alt="Logo FPT" class="logo">
-        <img src="https://inkythuatso.com/uploads/thumbnails/800/2021/11/logo-fpt-inkythuatso-1-01-01-14-33-35.jpg" alt="Logo FPT" class="logo">
+        <img src="https://inkythuatso.com/uploads/thumbnails/800/2021/11/logo-fpt-inkythuatso-1-01-01-14-33-35.jpg" alt="Logo FPT" class="logo"> <!-- Logo bên trái -->
+        <img src="https://inkythuatso.com/uploads/thumbnails/800/2021/11/logo-fpt-inkythuatso-1-01-01-14-33-35.jpg" alt="Logo FPT" class="logo"> <!-- Logo bên phải -->
     </div>
     <h1>Text to Speech with FPT.AI</h1>
     <textarea id="textInput" placeholder="Nhập văn bản tại đây..."></textarea>
@@ -109,7 +109,7 @@
         <option value="-1">Tốc độ chậm</option>
     </select>
 
-    <button id="speakButton">Phát âm thanh</button>
+    <button id="speakButton" onclick="playText()">Phát âm thanh</button>
     <div class="audio-player">
         <audio id="audioPlayer" controls></audio>
     </div>
