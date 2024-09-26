@@ -45,6 +45,7 @@
             border: 1px solid #ccc;
             font-size: 16px;
             margin-bottom: 10px;
+            resize: none; /* Ngăn người dùng thay đổi kích thước */
         }
 
         select, button {
@@ -67,6 +68,11 @@
             background-color: #218838;
         }
 
+        .status-message {
+            color: yellow;
+            margin-top: 10px;
+        }
+
         audio {
             margin-top: 20px;
             display: none; /* Ẩn ban đầu */
@@ -82,6 +88,17 @@
         .audio-player audio {
             width: 100%;
             max-width: 600px;
+        }
+
+        @media (max-width: 600px) {
+            textarea {
+                width: 90%;
+                height: 80px;
+            }
+
+            select, button {
+                width: 90%;
+            }
         }
     </style>
 </head>
@@ -110,6 +127,7 @@
     </select>
 
     <button id="speakButton" onclick="playText()">Phát âm thanh</button>
+    <div class="status-message" id="statusMessage"></div> <!-- Thông báo trạng thái -->
     <div class="audio-player">
         <audio id="audioPlayer" controls></audio>
     </div>
