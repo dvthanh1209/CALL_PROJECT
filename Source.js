@@ -1,11 +1,11 @@
 const apiKey = "4NEZSsPkkttUr47VLaB5rFrkeQGmowRC";
 const apiUrl = "https://api.fpt.ai/hmi/tts/v5";
 
-// URL để nhận thông báo callback
-const callbackUrl = "https://your-callback-url.com/notify"; // Cần thay thế bằng URL thật của bạn
+// URL để nhận thông báo callback (thay thế bằng URL thật nếu cần)
+const callbackUrl = "https://your-callback-url.com/notify"; 
 
 document.getElementById('speakButton').addEventListener('click', function () {
-    const text = document.getElementById('textInput').value;
+    const text = document.getElementById('textInput').value.trim();
 
     if (text.length < 3 || text.length > 5000) {
         alert("Vui lòng nhập văn bản từ 3 đến 5000 ký tự.");
@@ -20,7 +20,12 @@ document.getElementById('speakButton').addEventListener('click', function () {
         },
         body: JSON.stringify({ text: text, callback_url: callbackUrl })
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Network response was not ok");
+        }
+        return response.json();
+    })
     .then(data => {
         if (data.error === 0) {
             console.log("Yêu cầu thành công, chờ âm thanh được chuẩn bị...");
@@ -47,7 +52,12 @@ function checkAudioStatus(requestId) {
                 "api_key": apiKey
             }
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+            return response.json();
+        })
         .then(data => {
             if (data.error === 0) {
                 playAudio(data.async); // Phát âm thanh khi có sẵn
@@ -65,5 +75,6 @@ function checkAudioStatus(requestId) {
 function playAudio(url) {
     const audioPlayer = document.getElementById('audioPlayer');
     audioPlayer.src = url;
+    audioPlayer.style.display = "block"; // Hiển thị audio player
     audioPlayer.play();
 }
