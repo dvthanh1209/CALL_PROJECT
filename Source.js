@@ -1,5 +1,5 @@
 const url = 'https://api.fpt.ai/hmi/tts/v5';
-const apiKey = '3hlR0ZtgRGnHh2lK2RBM582L4VYOOfiy'; // API key của bạn
+const apiKey = '4NEZSsPkkttUr47VLaB5rFrkeQGmowRC'; // API key mới
 
 document.getElementById('speakButton').addEventListener('click', function() {
     const text = document.getElementById('nameInput').value.trim();
