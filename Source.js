@@ -2,7 +2,7 @@ const apiKey = '3hlR0ZtgRGnHh2lK2RBM582L4VYOOfiy';
 const callbackUrl = 'https://dvthanh1209.github.io/CALL_PROJECT/';
 
 // Hàm để chuyển đổi văn bản thành giọng nói
-function convertTextToSpeech(text) {
+function convertTextToSpeech(text, voice, speed) {
     const ttsUrl = 'https://api.fpt.ai/hmi/tts/v5';
     const headers = {
         'api_key': apiKey,
@@ -12,9 +12,9 @@ function convertTextToSpeech(text) {
 
     const body = JSON.stringify({
         text: text,
-        voice: 'banmai',  // Bạn có thể thay đổi giọng đọc ở đây
-        speed: 0,         // Tốc độ giọng đọc (từ -3 đến +3)
-        format: 'mp3',    // Định dạng file
+        voice: voice,
+        speed: speed,
+        format: 'mp3',
         callback_url: callbackUrl
     });
 
@@ -76,12 +76,18 @@ function playAudio(audioUrl) {
     });
 }
 
-// Ví dụ sử dụng hàm để chuyển đổi văn bản
-document.getElementById('convert-btn').addEventListener('click', () => {
-    const text = document.getElementById('text-input').value;
-    if (text.length > 3) {
-        convertTextToSpeech(text);
-    } else {
-        alert('Vui lòng nhập ít nhất 3 ký tự.');
-    }
+// Sự kiện khi người dùng nhấn nút
+document.addEventListener('DOMContentLoaded', () => {
+    const speakButton = document.getElementById('speakButton');
+    speakButton.addEventListener('click', () => {
+        const text = document.getElementById('textInput').value;
+        const voice = document.getElementById('voiceSelect').value;
+        const speed = document.getElementById('speedSelect').value;
+
+        if (text.length > 3) {
+            convertTextToSpeech(text, voice, speed);
+        } else {
+            alert('Vui lòng nhập ít nhất 3 ký tự.');
+        }
+    });
 });
