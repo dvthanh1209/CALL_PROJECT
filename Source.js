@@ -1,60 +1,69 @@
-// Đảm bảo rằng thư viện axios đã được tải trước khi sử dụng
-const url = 'https://api.fpt.ai/hmi/tts/v5';
-const apiKey = '3hlR0ZtgRGnHh2lK2RBM582L4VYOOfiy'; // API key của bạn
+const apiKey = "4NEZSsPkkttUr47VLaB5rFrkeQGmowRC";
+const apiUrl = "https://api.fpt.ai/hmi/tts/v5";
 
-document.getElementById('speakButton').addEventListener('click', function() {
-    const text = document.getElementById('nameInput').value.trim();
-    const voice = document.getElementById('voiceSelect').value;
-    const speed = document.getElementById('speedSelect').value;
+// URL để nhận thông báo callback
+const callbackUrl = "https://your-callback-url.com/notify"; // Cần thay thế bằng URL thật của bạn
 
-    if (text.length >= 3 && text.length <= 5000) {
-        const headers = {
-            'api_key': apiKey,
-            'Content-Type': 'application/json',
-        };
+document.getElementById('speakButton').addEventListener('click', function () {
+    const text = document.getElementById('textInput').value;
 
-        const data = {
-            text: text,
-            voice: voice,
-            speed: speed,
-            format: 'mp3',
-            callback_url: 'https://dvthanh1209.github.io/Project1-call-2/' // URL để nhận thông báo
-        };
-
-        // Gửi yêu cầu POST đến API
-        axios.post(url, data, { headers: headers })
-            .then(response => {
-                if (response.data.error === 0) {
-                    const audioUrl = response.data.async;
-                    const audio = new Audio(audioUrl);
-                    audio.play().catch(error => {
-                        console.error('Lỗi khi phát âm thanh:', error);
-                    });
-                } else {
-                    alert('Có lỗi xảy ra: ' + response.data.message);
-                }
-            })
-            .catch(error => {
-                console.error('Lỗi:', error);
-                alert('Có lỗi xảy ra, vui lòng thử lại!');
-            });
-    } else {
-        alert('Vui lòng nhập ít nhất 3 ký tự và tối đa 5000 ký tự!');
+    if (text.length < 3 || text.length > 5000) {
+        alert("Vui lòng nhập văn bản từ 3 đến 5000 ký tự.");
+        return;
     }
+
+    fetch(apiUrl, {
+        method: "POST",
+        headers: {
+            "api_key": apiKey,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ text: text, callback_url: callbackUrl })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error === 0) {
+            console.log("Yêu cầu thành công, chờ âm thanh được chuẩn bị...");
+            // Gọi hàm để kiểm tra trạng thái âm thanh
+            checkAudioStatus(data.request_id);
+        } else {
+            alert("Đã xảy ra lỗi: " + data.message);
+        }
+    })
+    .catch(error => {
+        console.error("Lỗi:", error);
+    });
 });
 
-// Phần callback để nhận thông tin khi âm thanh đã sẵn sàng
-function setupCallback() {
-    // URL để nhận thông báo khi âm thanh đã sẵn sàng
-    const callbackUrl = 'https://dvthanh1209.github.io/Project1-call-2/'; // URL cần thay đổi
-    axios.post(callbackUrl, { message: 'Request has been processed.' })
-        .then(response => {
-            console.log('Callback response:', response.data);
+// Hàm kiểm tra trạng thái âm thanh
+function checkAudioStatus(requestId) {
+    const statusCheckUrl = `${apiUrl}/status/${requestId}`;
+
+    // Đợi một khoảng thời gian trước khi kiểm tra lại
+    setTimeout(() => {
+        fetch(statusCheckUrl, {
+            method: "GET",
+            headers: {
+                "api_key": apiKey
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error === 0) {
+                playAudio(data.async); // Phát âm thanh khi có sẵn
+            } else {
+                console.log("Âm thanh chưa sẵn sàng, kiểm tra lại...");
+                checkAudioStatus(requestId); // Gọi lại nếu âm thanh chưa sẵn sàng
+            }
         })
         .catch(error => {
-            console.error('Lỗi khi gửi callback:', error);
+            console.error("Lỗi kiểm tra trạng thái:", error);
         });
+    }, 5000); // Kiểm tra lại sau 5 giây
 }
 
-// Gọi hàm setupCallback khi cần
-setupCallback();
+function playAudio(url) {
+    const audioPlayer = document.getElementById('audioPlayer');
+    audioPlayer.src = url;
+    audioPlayer.play();
+}
