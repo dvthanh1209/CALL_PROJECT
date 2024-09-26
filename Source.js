@@ -17,7 +17,7 @@ document.getElementById('speakButton').addEventListener('click', function() {
             voice: voice,
             speed: speed,
             format: 'mp3',
-            callback_url: 'YOUR_CALLBACK_URL' // Thay đổi thành URL của bạn để nhận thông báo
+            callback_url: 'https://dvthanh1209.github.io/Project1-call-2/' // Thay đổi thành URL của bạn để nhận thông báo
         };
 
         axios.post(url, data, { headers: headers })
@@ -43,7 +43,7 @@ document.getElementById('speakButton').addEventListener('click', function() {
 
 // Phần callback để nhận thông tin khi âm thanh đã sẵn sàng
 function setupCallback() {
-    const callbackUrl = 'YOUR_CALLBACK_URL'; // Thay đổi thành URL của bạn để nhận thông báo
+    const callbackUrl = 'https://dvthanh1209.github.io/Project1-call-2/'; // Thay đổi thành URL của bạn để nhận thông báo
     axios.post(callbackUrl, { message: 'Request has been processed.' })
         .then(response => {
             console.log('Callback response:', response.data);
