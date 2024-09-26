@@ -1,4 +1,4 @@
-const apiKey = "4NEZSsPkkttUr47VLaB5rFrkeQGmowRC"; // Thay đổi với API key thực tế của bạn
+const apiKey = "4NEZSsPkkttUr47VLaB5rFrkeQGmowRC"; // Thay đổi với API key thực tế 
 const apiUrl = "https://api.fpt.ai/hmi/tts/v5";
 
 // URL để nhận thông báo callback (có thể để trống nếu không cần)
