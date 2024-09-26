@@ -4,12 +4,73 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Text to Speech with FPT.AI</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        textarea {
+            width: 100%;
+            max-width: 600px;
+            height: 100px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        audio {
+            margin-top: 20px;
+            display: none; /* Hide initially */
+        }
+
+        .audio-player {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .audio-player audio {
+            width: 100%;
+            max-width: 600px;
+        }
+    </style>
     <script src="source.js" defer></script>
 </head>
 <body>
     <h1>Text to Speech with FPT.AI</h1>
-    <textarea id="textInput" rows="4" cols="50" placeholder="Nhập văn bản tại đây..."></textarea><br>
+    <textarea id="textInput" placeholder="Nhập văn bản tại đây..."></textarea>
     <button id="speakButton">Phát âm thanh</button>
-    <audio id="audioPlayer" controls></audio>
+    <div class="audio-player">
+        <audio id="audioPlayer" controls></audio>
+    </div>
 </body>
 </html>
