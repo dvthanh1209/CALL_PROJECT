@@ -1,6 +1,7 @@
 // Hàm để chuyển đổi văn bản thành giọng nói qua backend trung gian
 function convertTextToSpeech(text, voice, speed) {
-   const ttsUrl = 'https://call-project-swart.vercel.app/api/tts'; // URL backend mới
+ const ttsUrl = 'https://call-project-8bqy.vercel.app/api/tts'; // URL của backend trên Vercel
+
 
 
     const body = JSON.stringify({
