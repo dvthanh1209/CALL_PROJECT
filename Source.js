@@ -2,7 +2,7 @@ const url = 'https://api.fpt.ai/hmi/tts/v5';
 const apiKey = '4NEZSsPkkttUr47VLaB5rFrkeQGmowRC'; // API key mới
 
 document.getElementById('speakButton').addEventListener('click', function() {
-    const text = document.getElementById('textInput').value.trim(); // Sửa từ 'nameInput' thành 'textInput'
+    const text = document.getElementById('textInput').value.trim();
     const voice = document.getElementById('voiceSelect').value;
     const speed = document.getElementById('speedSelect').value;
 
@@ -49,25 +49,29 @@ document.getElementById('speakButton').addEventListener('click', function() {
 function checkAudioStatus(requestId) {
     const statusCheckUrl = `https://api.fpt.ai/hmi/tts/v5/status/${requestId}`;
 
-    // Kiểm tra trạng thái âm thanh bằng fetch
-    fetch(statusCheckUrl)
-        .then(response => response.json())
-        .then(responseData => {
-            if (responseData.error === 0) {
-                const audioUrl = responseData.async;
-                const audio = new Audio(audioUrl);
-                audio.play().catch(error => {
-                    console.error('Lỗi khi phát âm thanh:', error);
-                });
-            } else {
-                console.error('Lỗi kiểm tra trạng thái:', responseData.message);
-                alert('Có lỗi xảy ra khi kiểm tra trạng thái âm thanh: ' + responseData.message);
-            }
-        })
-        .catch(error => {
-            console.error('Lỗi khi kiểm tra trạng thái âm thanh:', error);
-            alert('Lỗi khi kiểm tra trạng thái âm thanh. Vui lòng thử lại!');
-        });
+    fetch(statusCheckUrl, {
+        method: 'GET',
+        headers: {
+            'api_key': apiKey
+        }
+    })
+    .then(response => response.json())
+    .then(responseData => {
+        if (responseData.error === 0) {
+            const audioUrl = responseData.async;
+            const audio = new Audio(audioUrl);
+            audio.play().catch(error => {
+                console.error('Lỗi khi phát âm thanh:', error);
+            });
+        } else {
+            console.error('Lỗi kiểm tra trạng thái:', responseData.message);
+            alert('Có lỗi xảy ra khi kiểm tra trạng thái âm thanh: ' + responseData.message);
+        }
+    })
+    .catch(error => {
+        console.error('Lỗi khi kiểm tra trạng thái âm thanh:', error);
+        alert('Lỗi khi kiểm tra trạng thái âm thanh. Vui lòng thử lại!');
+    });
 }
 
 // Gọi hàm setupCallback nếu cần
