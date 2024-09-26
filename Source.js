@@ -79,15 +79,19 @@ function playAudio(audioUrl) {
 // Sự kiện khi người dùng nhấn nút
 document.addEventListener('DOMContentLoaded', () => {
     const speakButton = document.getElementById('speakButton');
-    speakButton.addEventListener('click', () => {
-        const text = document.getElementById('textInput').value;
-        const voice = document.getElementById('voiceSelect').value;
-        const speed = document.getElementById('speedSelect').value;
+    if (speakButton) { // Kiểm tra xem nút có tồn tại không
+        speakButton.addEventListener('click', () => {
+            const text = document.getElementById('textInput').value;
+            const voice = document.getElementById('voiceSelect').value;
+            const speed = document.getElementById('speedSelect').value;
 
-        if (text.length > 3) {
-            convertTextToSpeech(text, voice, speed);
-        } else {
-            alert('Vui lòng nhập ít nhất 3 ký tự.');
-        }
-    });
+            if (text.length > 3) {
+                convertTextToSpeech(text, voice, speed);
+            } else {
+                alert('Vui lòng nhập ít nhất 3 ký tự.');
+            }
+        });
+    } else {
+        console.error('Nút phát âm thanh không tồn tại!');
+    }
 });
